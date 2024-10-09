@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include "baconCode.h"
+#include "string.h"
+#include "ctype.h"
 
 int main(int argc, char **argv) {
 	/*
@@ -21,6 +23,37 @@ int main(int argc, char **argv) {
 	srand(time(0)); // Use the current time as the seed for random generator
 
 	// TODO: Your encode code goes here...
-
+	int input;
+	int index;
+	while((input = getchar()) != EOF){
+		if(input == 10){ //checks for newline (10 = ascii for \n)
+			putchar(input);
+			continue;
+		}
+		input = tolower(input);
+		char* foundPtr=strchr(alfa, input);
+		if(foundPtr != NULL){
+			index = foundPtr - alfa;
+		}
+		else{
+			foundPtr = strchr(alfa, '*');
+			index = foundPtr - alfa; //index of '*'
+		}
+		for(int i = 4; i >= 0; i--){
+			int randSpaces = 1+rand()%8;
+			int currBit = (index >> i) & 1; //currBit will be either 0 or 1 
+			if(currBit == 0){
+				char randVowel = vowels[rand()%strlen(vowels)];
+				putchar(randVowel);
+			}
+			else{
+				char randCons = consonants[rand()%strlen(consonants)];
+				putchar(randCons);
+			}
+			for(int i = 0; i < randSpaces; i++){
+				putchar(' ');
+			}
+		}
+	}
 	return 0;
 }

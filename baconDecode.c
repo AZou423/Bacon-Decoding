@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "baconCode.h"
+#include "string.h"
 
 int main(int argc,char **argv) {
 	/*
@@ -20,6 +21,29 @@ int main(int argc,char **argv) {
 	*/
 
 	// TODO: Your main code goes here
-
+	char input;
+	int fullBit = 0;
+	int bitPos = 4;
+	while((input = getchar())!= EOF){
+		if(input == 10){
+			putchar(input);
+		}
+		if(input == 32){
+			continue; //ignore blanks (spaces)
+		}
+		if(strchr(vowels, input)){
+			fullBit |= (0 << bitPos);
+			bitPos--;
+		}
+		else if(strchr(consonants, input)){
+			fullBit |= (1 << bitPos);
+			bitPos--;
+		}
+		if(bitPos < 0){
+			putchar(alfa[fullBit]);
+			fullBit = 0;
+			bitPos = 4;
+		}
+	}
 	return 0;
 }
